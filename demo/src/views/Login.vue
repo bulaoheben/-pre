@@ -3,7 +3,7 @@
   <div style="width:400px;margin :150px auto">
     <div style="color: darkblue;font-size: 24px;text-align: center;margin-top:90px">智能养老系统</div>
     <div style="color:black;;font-size: 20px;text-align: center;margin-top:50px">登录</div>
-    <el-form ref="form" :model="form"  :rules="rules">
+    <el-form ref="form" :model="form" :rules="rules">
       <el-form-item ref="form" :model="form" prop="username" style="margin-top:20px">
         <el-input v-model="form.username"></el-input>
       </el-form-item>
@@ -20,7 +20,6 @@
 
 <script>
 import api from "@/api";
-import res from "core-js/internals/is-forced";
 
 export default {
   name: "Login",
@@ -45,17 +44,31 @@ export default {
   login(){
     this.$refs['form'].validate((valid=>{
       if(valid){
-        api.get('/login',this.form)
+        // 现在尝试用你封装过的axios接口请求
+        api.post('http://localhost:8080/api/login',this.form, {
+          headers: {
+            "content-type": "multipart/form-data"
+          }
+        })
             .then(res=>{
-              this.form = res.data;  //返回数据显示到text
-              console.log(res.data);// 返回的数据
-              this.$message({
-                type:"success",
-                message:"登录成功"
-              })
+              // 后面如何处理返回200和400的情况你自己看一看
+              if(res.code === '200'){
+                this.$message({
+                  type:"success",
+                  message:"登录成功"
+                })
+                this.$router.push("/home")
+              }
+              else{
+                this.$message({
+                  type:"error",
+                  message:"用户名或密码错误"
+                })
+              }
             })
             .catch(err=>{
-              this.form = 'error' + err;
+              // 这里为什么要把错误信息放进请求表单里？
+               this.form = 'error' + err;
             });
       }
     }))
