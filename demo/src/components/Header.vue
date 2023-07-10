@@ -4,18 +4,18 @@
   <div style="flex:1"></div>
   <div style="width:100px;margin-top:15px">
     <el-dropdown>
-    <span class="el-dropdown-link">
-      用户名
-      <el-icon class="el-icon--right">
-        <arrow-down />
-      </el-icon>
-    </span>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item>个人信息</el-dropdown-item>
-          <el-dropdown-item>退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
+    <el-button class="el-dropdown-link" @click="exit">
+      退出登录
+<!--      <el-icon class="el-icon&#45;&#45;right">-->
+<!--        <arrow-down />-->
+<!--      </el-icon>-->
+    </el-button>
+<!--      <template #dropdown>-->
+<!--        <el-dropdown-menu>-->
+<!--          <el-dropdown-item @click="information">个人信息</el-dropdown-item>-->
+<!--          <el-dropdown-item @click="exit">退出登录</el-dropdown-item>-->
+<!--        </el-dropdown-menu>-->
+<!--      </template>-->
     </el-dropdown>
   </div>
 </div>
@@ -23,7 +23,15 @@
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  methods:{
+    information(){
+
+    },
+    exit(){
+      this.$router.push("/login")
+    }
+  }
 }
 </script>
 

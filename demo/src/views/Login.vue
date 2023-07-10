@@ -1,8 +1,8 @@
 <template>
 <div style="width:100%;height:100vh;overflow: hidden" id="login">
   <div style="width:400px;margin :150px auto">
-    <div style="color: darkblue;font-size: 24px;text-align: center;margin-top:90px">智能养老系统</div>
-    <div style="color:black;;font-size: 20px;text-align: center;margin-top:50px">登录</div>
+    <div style="color: darkblue; font-weight:bold; font-size: 28px;text-align: center;margin-top:90px">智能养老系统</div>
+    <div style="color:black;font-weight:bold; font-size: 20px;text-align: center;margin-top:50px">登录</div>
     <el-form ref="form" :model="form" :rules="rules">
       <el-form-item ref="form" :model="form" prop="username" style="margin-top:20px">
         <el-input v-model="form.username"></el-input>
@@ -11,8 +11,9 @@
         <el-input v-model="form.password" show-password></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button style="width: 100%;margin-top:15px" type="primary" @click="login">登录</el-button>
+        <el-button style="width: 100%; margin-top:15px" type="primary" @click="login">登录</el-button>
       </el-form-item>
+      <a href=" " style="color:white;margin-right: 20px" @click="goToRegister">没密码？去注册</a>
     </el-form>
   </div>
 </div>
@@ -49,8 +50,7 @@ export default {
           headers: {
             "content-type": "multipart/form-data"
           }
-        })
-            .then(res=>{
+        }).then(res=>{
               // 后面如何处理返回200和400的情况你自己看一看
               if(res.code === '200'){
                 this.$message({
@@ -72,7 +72,12 @@ export default {
             });
       }
     }))
-  }
+  },
+    goToRegister() {
+      // 在此处执行跳转至注册界面的操作
+      this.$router.push('/register');
+    }
+
   }
 }
 </script>

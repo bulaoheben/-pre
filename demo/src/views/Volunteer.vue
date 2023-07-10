@@ -1,6 +1,6 @@
 <template>
   <div style="padding:30px">
-    <h2 style="padding:10px;margin-top: 0px">管理员信息展示</h2>
+    <h2 style="padding:10px;margin-top: 0px">义工信息展示</h2>
     <div>
       <el-input v-model="search" placeholder="请输入内容" style="width: 20%"></el-input>
       <el-button style="margin-left: 5px;" type="primary" @click="load">查询</el-button>
@@ -53,10 +53,10 @@
               type="primary"
               @click="handleEdit(scope.row)">编辑</el-button>
 
-            <el-button
-                size="mini"
-                type="danger"
-                style="margin-left: 5px" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
+          <el-button
+              size="mini"
+              type="danger"
+              style="margin-left: 5px" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -117,22 +117,12 @@ export default {
       tableData: []
     }
   },
-  // data(){
-  // return{
-  //     userName: 'syd',
-  //     Password:"123321",
-  //     REAL_NAME:'王一丁',
-  //     SEX:"female",
-  //     EMAIL: '20301065@bjtu.edu.cn',
-  //     PHONE:"13671029613"
-  //   }
-  // },
   created(){
     this.load()
   },
   methods:{
     load(){
-      api.get("http://localhost:8080/api/userList",{
+      api.get("http://localhost:8080/api/select_by_id",{
         // headers: {
         //   "content-type": "multipart/form-data"
         // },
@@ -161,10 +151,10 @@ export default {
     // },
     save(){
       if(this.form.id){
-        api.put("http://localhost:8080/api/editUser?id=",this.form,{
-          headers: {
-            "content-type": "multipart/form-data"
-          }
+        api.put("http://localhost:8080/api/modify_volunteer_info",this.form,{
+          // headers: {
+          //   "content-type": "multipart/form-data"
+          // }
         }).then(res=>{
           console.log(res)
           if(res.code=='200'){
@@ -214,21 +204,21 @@ export default {
             type: 'warning',
           }
       ).then(() => {
-            api.delete("http://localhost:8080/api/deleteUser?id="+row.ID,{},{
-            }).then(res=>{
-              if(res.code=='200'){
-                this.$message({
-                  type:"success",
-                  message:"删除成功"
-                })
-              }else{
-                this.$message({
-                  type:"error",
-                  message:res.msg
-                })
-              }
-              this.load()
-          })
+        api.delete("/delete_volunteer_info"+row.ID,{},{
+        }).then(res=>{
+          if(res.code=='200'){
+            this.$message({
+              type:"success",
+              message:"删除成功"
+            })
+          }else{
+            this.$message({
+              type:"error",
+              message:res.msg
+            })
+          }
+          this.load()
+        })
       }).catch(()=>{
         console.log('取消')
       })

@@ -1,19 +1,19 @@
 <template>
   <div style="width:100%;height:100vh;overflow: hidden" id="reg">
     <div style="width:400px;margin :150px auto">
-      <div style="color:black;;font-size: 24px;text-align: center;margin-top:130px">欢迎注册</div>
+      <div style="color:black;;font-size: 28px;text-align: center;margin-top:120px">欢迎注册</div>
       <el-form ref="form" :model="form" :rules="rules">
       <el-row>
         <el-col :span="12">
           <div>
-              <el-form-item ref="form" :model="form" style="margin-top:30px;margin-right: 5px" prop="userName">
+              <el-form-item ref="form" :model="form" style="margin-top:40px;margin-right: 5px" prop="userName">
                 <el-input v-model="form.userName" placeholder="用户名："></el-input>
               </el-form-item>
           </div>
         </el-col>
         <el-col :span="12">
           <div>
-              <el-form-item ref="form" :model="form" style="margin-top:30px;margin-left: 5px" prop="password">
+              <el-form-item ref="form" :model="form" style="margin-top:40px;margin-left: 5px" prop="password">
                 <el-input v-model="form.password" show-password placeholder="密码："></el-input>
               </el-form-item>
           </div>

@@ -11,7 +11,27 @@ const routes = [
         path: 'home',
         name: 'Home',
         component: () => import(/* webpackChunkName: "about" */ '@/views/HomeView')
+      },
+      {
+        path: 'userlist',
+        name: 'UserList',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/UserList')
+      },
+      {
+        path: 'volunteer',
+        name: 'Volunteer',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/Volunteer')
+      },
+      {
+        path: '/video/video_feed',
+        name: 'Video',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/Video')
       }
+      // {
+      //   path: 'stranger',
+      //   name: 'Stranger',
+      //   component: () => import(/* webpackChunkName: "about" */ '@/views/Stranger')
+      // }
     ]
   },
   {
@@ -23,12 +43,12 @@ const routes = [
     path: '/register',
     name: 'register',
     component: () => import(/* webpackChunkName: "about" */ '@/views/Register')
-  },
-  {
-    path: '/userlist',
-    name: 'userlist',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/UserList')
   }
+  // {
+  //   path: '/userlist',
+  //   name: 'userlist',
+  //   component: () => import(/* webpackChunkName: "about" */ '@/views/UserList')
+  // }
 ]
 
 const router = createRouter({
