@@ -70,7 +70,7 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
       </el-pagination>
-      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+      <el-dialog title="提示"  v-model="dialogVisible"  width="30%">
         <el-form :model="form" label-width="120px">
           <el-form-item label="用户名">
             <el-input v-model="form.UserName"></el-input>
@@ -160,8 +160,9 @@ export default {
     //   this.form={}
     // },
     save(){
-      if(this.form.id){
-        api.put("http://localhost:8080/api/editUser?id=",this.form,{
+      debugger;
+      if(this.form.ID){
+        api.put(`http://localhost:8080/api/editUser?id=${this.form.ID}`,this.form,{
           headers: {
             "content-type": "multipart/form-data"
           }
@@ -202,6 +203,7 @@ export default {
       // }
     },
     handleEdit(row){
+      debugger;
       this.form=JSON.parse(JSON.stringify(row))
       this.dialogVisible=true
     },
