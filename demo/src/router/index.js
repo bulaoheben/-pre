@@ -18,9 +18,24 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '@/views/UserList')
       },
       {
-        path: 'volunteer',
+        path: '/volunteer',
         name: 'Volunteer',
         component: () => import(/* webpackChunkName: "about" */ '@/views/Volunteer')
+      },
+      {
+        path: '/employee',
+        name: 'Employee',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/Employee')
+      },
+      {
+        path: 'oldpeopleinfo',
+        name: 'oldPeopleInfo',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/oldPeopleInfo')
+      },
+      {
+        path: 'enterinfo',
+        name: 'enterInfo',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/enterInfo')
       },
       {
         path: '/video/video_feed',

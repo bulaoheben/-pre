@@ -137,22 +137,22 @@ export default {
         //   "content-type": "multipart/form-data"
         // },
         params:{
-          pageNum:this.currentPage,
-          pageSize:this.pageSize,
+          page:this.currentPage,
+          per_page:this.pageSize,
           search:this.search
         }
       }).then(res=>{
         console.log(111,res)
-        this.tableData=res.data
-        this.total=res.data.total || 0
+        this.tableData=res.data.items
+        this.total=res.data.total_items || 0
       })
     },
-    handleSizeChange(pageSize){
-      this.pageSize=pageSize
+    handleSizeChange(per_page){
+      this.pageSize=per_page
       this.load()
     },
-    handleCurrentChange(pageNum){
-      this.currentPage=pageNum
+    handleCurrentChange(page){
+      this.currentPage=page
       this.load()
     },
     // add(){
@@ -160,7 +160,6 @@ export default {
     //   this.form={}
     // },
     save(){
-      debugger;
       if(this.form.ID){
         api.put(`http://localhost:8080/api/editUser?id=${this.form.ID}`,this.form,{
           headers: {
@@ -203,7 +202,6 @@ export default {
       // }
     },
     handleEdit(row){
-      debugger;
       this.form=JSON.parse(JSON.stringify(row))
       this.dialogVisible=true
     },

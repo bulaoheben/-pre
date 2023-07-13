@@ -4,48 +4,60 @@
     <div>
       <el-input v-model="search" placeholder="请输入内容" style="width: 20%"></el-input>
       <el-button style="margin-left: 5px;" type="primary" @click="load">查询</el-button>
+      <el-button style="margin-left: 5px;" type="primary" @click="add">新增</el-button>
     </div>
     <el-table
         :data="tableData"
         border
         style="width: 100%">
       <el-table-column
-          prop="ID"
-          label="编号"
-          width="65"
-          sortable>
+          prop="name"
+          width="90"
+          label="义工姓名">
       </el-table-column>
       <el-table-column
-          prop="UserName"
-          width="140"
-          label="用户名">
-      </el-table-column>
-      <el-table-column
-          prop="Password"
-          width="140"
-          label="密码">
-      </el-table-column>
-      <el-table-column
-          prop="REAL_NAME"
-          width="140"
-          label="真实姓名">
-      </el-table-column>
-      <el-table-column
-          prop="SEX"
-          width="140"
+          prop="gender"
+          width="80"
           label="性别">
       </el-table-column>
       <el-table-column
-          prop="EMAIL"
-          width="140"
-          label="邮箱">
-      </el-table-column>
-      <el-table-column
-          prop="PHONE"
-          width="140"
+          prop="phone"
+          width="160"
           label="手机号">
       </el-table-column>
-
+      <el-table-column
+          prop="id_card"
+          label="身份证号"
+          width="180"
+          sortable>
+      </el-table-column>
+      <el-table-column
+          prop="checkin_date"
+          label="入职时间"
+          width="140"
+          sortable>
+        <template #default="scope">
+          {{formeDateFun(scope.row.checkin_date) }}
+        </template>
+      </el-table-column>
+      <el-table-column
+          prop="checkout_date"
+          label="离职时间"
+          width="140"
+          sortable>
+        <template #default="scope">
+          {{formeDateFun(scope.row.checkout_date) }}
+        </template>
+      </el-table-column>
+      <el-table-column
+          prop="birthday"
+          label="生日"
+          width="132"
+          sortable>
+        <template #default="scope">
+          {{formeDateFun(scope.row.birthday) }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="180">
         <template #default="scope">
           <el-button
@@ -70,25 +82,50 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
       </el-pagination>
-      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+      <el-dialog title="提示"  v-model="dialogVisible"  width="30%">
         <el-form :model="form" label-width="120px">
-          <el-form-item label="用户名">
-            <el-input v-model="form.UserName"></el-input>
-          </el-form-item>
-          <el-form-item label="密码">
-            <el-input v-model="form.Password"></el-input>
-          </el-form-item>
-          <el-form-item label="真实姓名">
-            <el-input v-model="form.REAL_NAME"></el-input>
+          <el-form-item label="姓名">
+            <el-input v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item label="性别">
-            <el-input v-model="form.SEX"></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱">
-            <el-input v-model="form.EMAIL"></el-input>
+            <el-input v-model="form.gender"></el-input>
           </el-form-item>
           <el-form-item label="手机号">
-            <el-input v-model="form.PHONE"></el-input>
+            <el-input v-model="form.phone"></el-input>
+          </el-form-item>
+          <el-form-item label="生日">
+
+            <el-date-picker
+                v-model="form.birthday"
+                type="date"
+                placeholder="Pick a day"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+            />
+          </el-form-item>
+          <el-form-item label="身份证号">
+            <el-input v-model="form.id_card"></el-input>
+          </el-form-item>
+          <el-form-item label="入职时间">
+
+            <el-date-picker
+                v-model="form.checkin_date"
+                type="date"
+                placeholder="Pick a day"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+            />
+          </el-form-item>
+          <el-form-item label="离职时间">
+
+            <el-date-picker
+                v-model="form.checkout_date"
+                type="date"
+                placeholder="Pick a day"
+                :size="size"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+            />
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -122,39 +159,56 @@ export default {
   },
   methods:{
     load(){
-      api.get("http://localhost:8080/api/select_by_id",{
+      api.get("http://localhost:8080/api/getAllVolunteers",{
         // headers: {
         //   "content-type": "multipart/form-data"
         // },
         params:{
-          pageNum:this.currentPage,
-          pageSize:this.pageSize,
+          page:this.currentPage,
+          per_page:this.pageSize,
           search:this.search
         }
       }).then(res=>{
         console.log(111,res)
-        this.tableData=res.data
-        this.total=res.data.total || 0
+        this.tableData=res.data.items
+        this.total=res.data.total_items || 0
       })
     },
-    handleSizeChange(pageSize){
-      this.pageSize=pageSize
+    handleSizeChange(per_page){
+      this.pageSize=per_page
       this.load()
     },
-    handleCurrentChange(pageNum){
-      this.currentPage=pageNum
+    handleCurrentChange(page){
+      this.currentPage=page
       this.load()
     },
-    // add(){
-    //   this.dialogVisible=true
-    //   this.form={}
-    // },
+    formeDateFun(time){
+    let d = new Date(time);
+      let year=d.getFullYear();
+      let mounce=d.getMonth() + 1;
+      let day=d.getDate()
+      let str=`${year}-${ mounce>9?mounce:'0'+mounce}-${day>9?day:'0'+day}`;
+      return str;
+    },
+    add(){
+      this.dialogVisible=true
+      this.form={}
+    },
     save(){
+      let formDate=new FormData()
+      formDate.append('id',this.form.id);
+      formDate.append('name',this.form.name);
+      formDate.append('gender',this.form.gender);
+      formDate.append('phone',this.form.phone);
+      formDate.append('birthday',this.form.birthday);
+      formDate.append('id_card',this.form.id_card);
+      formDate.append('checkin_date',this.form.checkin_date);
+      formDate.append('checkout_date',this.form.checkout_date);
       if(this.form.id){
-        api.put("http://localhost:8080/api/modify_volunteer_info",this.form,{
-          // headers: {
-          //   "content-type": "multipart/form-data"
-          // }
+        api.post(`http://localhost:8080/api/modify_volunteer_info`,formDate,{
+          headers: {
+            "content-type": "multipart/form-data"
+          }
         }).then(res=>{
           console.log(res)
           if(res.code=='200'){
@@ -172,27 +226,34 @@ export default {
           this.dialogVisible=false
         })
       }
-      // else{
-      //   api.post("http://localhost:8080/addEmployee",this.form).then(res=>{
-      //     console.log(res)
-      //     if(res.code=='200'){
-      //       this.$message({
-      //         type:"success",
-      //         message:"新增成功"
-      //       })
-      //     }else{
-      //       this.$message({
-      //         type:"error",
-      //         message:res.msg
-      //       })
-      //     }
-      //     this.load()
-      //     this.dialogVisible=false
-      //   })
-      // }
+      else{
+        api.post("http://localhost:8080/api/insert_volunteer_info",formDate,{
+          headers: {
+            "content-type": "multipart/form-data"
+          }}).then(res=>{
+          console.log(res)
+          if(res.code=='200'){
+            this.$message({
+              type:"success",
+              message:"新增成功"
+            })
+          }else{
+            this.$message({
+              type:"error",
+              message:res.msg
+            })
+          }
+          this.load()
+          this.dialogVisible=false
+        })
+      }
     },
     handleEdit(row){
-      this.form=JSON.parse(JSON.stringify(row))
+      let obj =JSON.parse(JSON.stringify(row))
+      obj.birthday =this.formeDateFun(obj.birthday);
+      obj.checkin_date =this.formeDateFun(obj.checkin_date);
+      obj.checkout_date =this.formeDateFun(obj.checkout_date);
+      this.form=obj;
       this.dialogVisible=true
     },
     handleDelete(index,row){
@@ -204,7 +265,7 @@ export default {
             type: 'warning',
           }
       ).then(() => {
-        api.delete("/delete_volunteer_info"+row.ID,{},{
+        api.post("/delete_volunteer_info"+row.ID,{},{
         }).then(res=>{
           if(res.code=='200'){
             this.$message({
