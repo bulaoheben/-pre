@@ -24,8 +24,8 @@
           </template>
           <el-menu-item index="2-1" @click="Employee">工作人员信息列表</el-menu-item>
           <el-menu-item index="2-2" @click="volunteer">义工信息列表</el-menu-item>
-          <el-menu-item index="2-3">老人信息列表</el-menu-item>
-          <el-menu-item index="2-3">录入老人信息</el-menu-item>
+          <el-menu-item index="2-3" @click="oldPeople">老人信息列表</el-menu-item>
+          <el-menu-item index="2-4" @click="GetFace">人脸信息采集</el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="3">
           <template #title>
@@ -69,8 +69,17 @@ export default {
     stranger(){
       this.$router.push("/Stranger")
     },
+    Employee(){
+      this.$router.push("/employee")
+    },
     video(){
       this.$router.push("/video/video_feed")
+    },
+    oldPeople(){
+      this.$router.push("/oldPeopleInfo")
+    },
+    GetFace(){
+      this.$router.push("/video/collect_face")
     }
   }
 }

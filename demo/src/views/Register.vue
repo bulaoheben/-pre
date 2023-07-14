@@ -1,7 +1,7 @@
 <template>
   <div style="width:100%;height:100vh;overflow: hidden" id="reg">
-    <div style="width:400px;margin :150px auto">
-      <div style="color:black;;font-size: 28px;text-align: center;margin-top:120px">欢迎注册</div>
+    <div style="width:400px;margin:150px auto">
+      <div style="color:black;font-size: 28px;text-align: center;margin-top:120px">欢迎注册</div>
       <el-form ref="form" :model="form" :rules="rules">
       <el-row>
         <el-col :span="12">

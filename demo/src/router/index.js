@@ -28,14 +28,19 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '@/views/Employee')
       },
       {
-        path: 'oldpeopleinfo',
+        path: 'oldPeopleInfo',
         name: 'oldPeopleInfo',
         component: () => import(/* webpackChunkName: "about" */ '@/views/oldPeopleInfo')
       },
+      // {
+      //   path: 'GetFaceInfo',
+      //   name: 'getFaceInfo',
+      //   component: () => import(/* webpackChunkName: "about" */ '@/views/GetFaceInfo')
+      // },
       {
-        path: 'enterinfo',
-        name: 'enterInfo',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/enterInfo')
+        path: 'Face',
+        name: 'face',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/Face')
       },
       {
         path: '/video/video_feed',

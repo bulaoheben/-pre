@@ -11,6 +11,11 @@
         border
         style="width: 100%">
       <el-table-column
+          prop="profile"
+          width="180"
+          label="头像">
+      </el-table-column>
+      <el-table-column
           prop="username"
           width="90"
           label="姓名">
@@ -28,17 +33,8 @@
       <el-table-column
           prop="id_card"
           label="身份证号"
-          width="180"
+          width="140"
           sortable>
-      </el-table-column>
-      <el-table-column
-          prop="birthday"
-          label="生日"
-          width="132"
-          sortable>
-        <template #default="scope">
-          {{formeDateFun(scope.row.birthday) }}
-        </template>
       </el-table-column>
       <el-table-column
           prop="hire_date"
@@ -46,7 +42,7 @@
           width="140"
           sortable>
         <template #default="scope">
-          {{formeDateFun(scope.row.checkin_date) }}
+          {{formeDateFun(scope.row.hire_date) }}
         </template>
       </el-table-column>
       <el-table-column
@@ -93,15 +89,6 @@
           <el-form-item label="身份证号">
             <el-input v-model="form.id_card"></el-input>
           </el-form-item>
-          <el-form-item label="生日">
-            <el-date-picker
-                v-model="form.birthday"
-                type="date"
-                placeholder="Pick a day"
-                format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD"
-            />
-          </el-form-item>
           <el-form-item label="入职时间">
             <el-date-picker
                 v-model="form.hire_date"
@@ -118,12 +105,12 @@
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="save">确 定</el-button>
+<!--          <el-button type="primary" @click="capture">拍摄人脸图像</el-button>-->
         </span>
       </el-dialog>
     </div>
   </div>
 </template>
-
 
 <script>
 
@@ -183,7 +170,6 @@ export default {
     },
     save(){
       let formDate=new FormData()
-      formDate.append('id',this.form.id);
       formDate.append('username',this.form.username);
       formDate.append('gender',this.form.gender);
       formDate.append('phone',this.form.phone);
@@ -192,7 +178,7 @@ export default {
       formDate.append('hire_date',this.form.hire_date);
       formDate.append('description',this.form.description);
       if(this.form.id){
-        api.post(`http://localhost:8080/api/updateEmployee/63`,formDate,{
+        api.post(`http://localhost:8080/api/updateEmployee/${this.form.id}`,formDate,{
           headers: {
             "content-type": "multipart/form-data"
           }
@@ -238,8 +224,8 @@ export default {
     handleEdit(row){
       let obj =JSON.parse(JSON.stringify(row))
       obj.birthday =this.formeDateFun(obj.birthday);
-      obj.checkin_date =this.formeDateFun(obj.checkin_date);
-      obj.checkout_date =this.formeDateFun(obj.checkout_date);
+      obj.hire_date =this.formeDateFun(obj.hire_date);
+      obj.resign_date =this.formeDateFun(obj.resign_date);
       this.form=obj;
       this.dialogVisible=true
     },

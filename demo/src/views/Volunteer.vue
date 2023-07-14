@@ -3,7 +3,7 @@
     <h2 style="padding:10px;margin-top: 0px">义工信息展示</h2>
     <div>
       <el-input v-model="search" placeholder="请输入内容" style="width: 20%"></el-input>
-      <el-button style="margin-left: 5px;" type="primary" @click="load">查询</el-button>
+      <el-button style="margin-left: 5px;" type="primary" @click="setchFun">查询</el-button>
       <el-button style="margin-left: 5px;" type="primary" @click="add">新增</el-button>
     </div>
     <el-table
@@ -160,20 +160,33 @@ export default {
   methods:{
     load(){
       api.get("http://localhost:8080/api/getAllVolunteers",{
-        // headers: {
-        //   "content-type": "multipart/form-data"
-        // },
         params:{
           page:this.currentPage,
           per_page:this.pageSize,
           search:this.search
         }
-      }).then(res=>{
+        },
+      ).then(res=>{
         console.log(111,res)
         this.tableData=res.data.items
         this.total=res.data.total_items || 0
       })
     },
+    setchFun(){
+        if(this.search){
+          let  formId = new FormData();
+          formId .append('id',this.search);
+          api.post("http://localhost:8080/api/select_by_id",formId
+          ).then(res=>{
+            console.log(111,res)
+            this.tableData=[res.data]
+            this.total=1
+          })
+        }else{
+          this.load()
+        }
+    },
+
     handleSizeChange(per_page){
       this.pageSize=per_page
       this.load()
