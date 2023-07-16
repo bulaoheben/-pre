@@ -49,6 +49,15 @@
                 <span style="font-size:16px" @click="voice">语音助手</span>
             </template>
         </el-sub-menu>
+        <el-sub-menu index="6">
+          <template #title>
+            <el-icon><icon-menu/></el-icon>
+            <span style="font-size:16px">摄像头</span>
+          </template>
+          <el-menu-item index="2-1" @click="camera">人脸识别</el-menu-item>
+          <el-menu-item index="2-2" @click="camera1">跌倒检测</el-menu-item>
+          <el-menu-item index="2-3" @click="camera2">禁区入侵</el-menu-item>
+        </el-sub-menu>
 <!--        <el-menu-item index="4">-->
 <!--          <el-icon><setting /></el-icon>-->
 <!--          <span style="font-size:16px">统计分析</span>-->
@@ -98,6 +107,15 @@ export default {
     },
     event(){
       this.$router.push("/Event")
+    },
+    camera(){
+      this.$router.push("/camera")
+    },
+    camera1(){
+      this.$router.push("/camera1")
+    },
+    camera2(){
+      this.$router.push("/camera2")
     }
   }
 }

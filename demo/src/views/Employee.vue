@@ -3,7 +3,7 @@
     <h2 style="padding:10px;margin-top: 0px">工作人员信息展示</h2>
     <div>
       <el-input v-model="search" placeholder="请输入内容" style="width: 20%"></el-input>
-      <el-button style="margin-left: 5px;" type="primary" @click="load">查询</el-button>
+      <el-button style="margin-left: 5px;" type="primary" @click="serchFun">查询</el-button>
       <el-button style="margin-left: 5px;" type="primary" @click="add">新增</el-button>
     </div>
     <el-table
@@ -11,18 +11,13 @@
         border
         style="width: 100%">
       <el-table-column
-          prop="profile"
-          width="180"
-          label="头像">
-      </el-table-column>
-      <el-table-column
           prop="username"
-          width="90"
+          width="110"
           label="姓名">
       </el-table-column>
       <el-table-column
           prop="gender"
-          width="80"
+          width="110"
           label="性别">
       </el-table-column>
       <el-table-column
@@ -33,12 +28,21 @@
       <el-table-column
           prop="id_card"
           label="身份证号"
-          width="140"
+          width="160"
           sortable>
       </el-table-column>
       <el-table-column
           prop="hire_date"
           label="入职时间"
+          width="140"
+          sortable>
+        <template #default="scope">
+          {{formeDateFun(scope.row.hire_date) }}
+        </template>
+      </el-table-column>
+      <el-table-column
+          prop="resign_date"
+          label="离职时间"
           width="140"
           sortable>
         <template #default="scope">
@@ -163,6 +167,19 @@ export default {
       let day=d.getDate()
       let str=`${year}-${ mounce>9?mounce:'0'+mounce}-${day>9?day:'0'+day}`;
       return str;
+    },
+    serchFun(){
+      if(this.search){
+        api.get(`http://localhost:8080/api/getEmployee/${this.search}`, {}
+        ).then(res=>{
+          // debugger;
+          console.log(111,res)
+          this.tableData=res.data
+          this.total=res.data.length;
+        })
+      }else{
+        this.load()
+      }
     },
     add(){
       this.dialogVisible=true

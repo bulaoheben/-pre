@@ -66,6 +66,21 @@ const routes = [
         path: '/event',
         name: 'Event',
         component: () => import(/* webpackChunkName: "about" */ '@/views/Event')
+      },
+      {
+        path: '/camera',
+        name: 'camera',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/Camera')
+      },
+      {
+        path: '/camera1',
+        name: 'camera1',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/Camera1')
+      },
+      {
+        path: '/camera2',
+        name: 'camera2',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/Camera2')
       }
       // {
       //   path: 'stranger',

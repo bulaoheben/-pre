@@ -2,7 +2,7 @@
   <div>
     <video ref="videoElement" autoplay></video>
     <div v-if="countdown > 0" class="countdown">{{ countdown }}</div>
-    <button @click="capture">Capture</button>
+    <button @click="capture" style="height: 40px">截图</button>
   </div>
 </template>
 

@@ -126,10 +126,9 @@ export default {
         this.total=res.data.total_items || 0
       })
     },
-    check(){
-      const image_name=this.image_name;
-      if(this.form.ID){
-        api.POST(`http://localhost:8080/api/video/get_pic`, {image_name}).then(res=>{
+    check(row){
+      const image_name=row.pic_url;
+        api.post(`http://localhost:8080/api/video/get_pic`, {image_name}).then(res=>{
           console.log(res)
           if(res.code=='200'){
             this.$message({
@@ -138,7 +137,7 @@ export default {
             })
           }
         })
-      }
+
     },
     handleSizeChange(per_page){
       this.pageSize=per_page
@@ -156,18 +155,18 @@ export default {
       let str=`${year}-${ mounce>9?mounce:'0'+mounce}-${day>9?day:'0'+day}`;
       return str;
     },
-    // setchFun(){
-    //   if(this.search){
-    //     api.get(`http://localhost:8080/api/oldperson/getOldPerson/${this.search.id}`, {}
-    //     ).then(res=>{
-    //       console.log(111,res)
-    //       this.tableData=[res.data]
-    //       this.total=1
-    //     })
-    //   }else{
-    //     this.load()
-    //   }
-    // },
+    setchFun(){
+      if(this.search){
+        api.get(`http://localhost:8080/api/event/getEvent/${this.search}`, {}
+        ).then(res=>{
+          console.log(111,res)
+          this.tableData=[res.data]
+          this.total=1
+        })
+      }else{
+        this.load()
+      }
+    },
     add(){
       this.dialogVisible=true
       this.form={}
