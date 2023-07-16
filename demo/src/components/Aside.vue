@@ -40,8 +40,8 @@
             <el-icon><document/></el-icon>
             <span style="font-size:16px">事件记录</span>
           </template>
-          <el-menu-item index="4-1" @click="video">交互检测</el-menu-item>
-          <el-menu-item index="4-2" @click="stranger">陌生人检测</el-menu-item>
+          <el-menu-item index="4-1" @click="event">事件监测</el-menu-item>
+          <el-menu-item index="4-2" @click="video">交互检测</el-menu-item>
         </el-sub-menu>
 <!--        <el-menu-item index="4">-->
 <!--          <el-icon><setting /></el-icon>-->
@@ -80,6 +80,9 @@ export default {
     },
     GetFace(){
       this.$router.push("/video/collect_face")
+    },
+    event(){
+      this.$router.push("/Event")
     }
   }
 }

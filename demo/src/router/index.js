@@ -46,6 +46,11 @@ const routes = [
         path: '/video/video_feed',
         name: 'Video',
         component: () => import(/* webpackChunkName: "about" */ '@/views/Video')
+      },
+      {
+        path: '/event',
+        name: 'Event',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/Event')
       }
       // {
       //   path: 'stranger',

@@ -3,7 +3,7 @@
     <h2 style="padding:10px;margin-top: 0px">老人信息展示</h2>
     <div>
       <el-input v-model="search" placeholder="请输入内容" style="width: 20%"></el-input>
-      <el-button style="margin-left: 5px;" type="primary" @click="search">查询</el-button>
+      <el-button style="margin-left: 5px;" type="primary" @click="setchFun">查询</el-button>
       <el-button style="margin-left: 5px;" type="primary" @click="add">新增</el-button>
     </div>
     <el-table
@@ -89,8 +89,10 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
+          <video ref="videoElement" style="margin-left: 40px" width="320" height="240" autoplay></video>
+          <el-button type="primary" @click="capture" style="margin-left: 80px">录入人脸图像</el-button>
           <el-button type="primary" @click="save">确 定</el-button>
+          <el-button @click="dialogVisible = false">取 消</el-button>
         </span>
       </el-dialog>
     </div>
@@ -100,6 +102,7 @@
 <script>
 
 import api from "@/api";
+import axios from "axios";
 
 export default {
   data() {
@@ -111,6 +114,7 @@ export default {
       total:0,
       pageSize:10,
       tableData: [],
+      stream: null
     }
   },
   created(){
@@ -133,13 +137,50 @@ export default {
         this.total=res.data.total_items || 0
       })
     },
-    search(){
-
-    },
     handleSizeChange(per_page){
       this.pageSize=per_page
       this.load()
     },
+    async initializeCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        this.$refs.videoElement.srcObject = stream;
+        this.stream = stream;
+      } catch (error) {
+        console.error('Failed to initialize camera: ', error);
+      }
+    },
+    capture() {
+      this.initializeCamera();
+      this.countdown = 3;
+      const countdownTimer = setInterval(() => {
+        this.countdown--;
+        if (this.countdown === 0) {
+          clearInterval(countdownTimer);
+          this.takeSnapshot();
+        }
+      }, 1000);
+    },
+    takeSnapshot() {
+      const videoElement = this.$refs.videoElement;
+      const canvas = document.createElement('canvas');
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
+      // ctx.drawImage(this.$refs['video'], 0, 0, 447, 482, 0, 0, 200, 200)
+      canvas.getContext('2d').drawImage(videoElement, -100, 100, 447, 482, 0, 0, 200, 200);
+      const imageDataUrl = canvas.toDataURL('image/jpeg');
+
+      // 发送图像数据到后端
+      const name = this.username;
+      axios.post('http://localhost:8080/api/video/collect_face', { name, imageDataUrl })
+          .then(() => {
+            console.log('Face collection completed.');
+          })
+          .catch((error) => {
+            console.error('Failed to collect face:', error);
+          });
+    },
+
     handleCurrentChange(page){
       this.currentPage=page
       this.load()
@@ -151,6 +192,18 @@ export default {
       let day=d.getDate()
       let str=`${year}-${ mounce>9?mounce:'0'+mounce}-${day>9?day:'0'+day}`;
       return str;
+    },
+    setchFun(){
+      if(this.search){
+        api.get(`http://localhost:8080/api/oldperson/getOldPerson/${this.search.id}`, {}
+        ).then(res=>{
+          console.log(111,res)
+          this.tableData=[res.data]
+          this.total=1
+        })
+      }else{
+        this.load()
+      }
     },
     add(){
       this.dialogVisible=true
