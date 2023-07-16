@@ -32,8 +32,8 @@
             <el-icon><document/></el-icon>
             <span style="font-size:16px">统计分析</span>
           </template>
-          <el-menu-item index="3-1">义工就职时间统计</el-menu-item>
-          <el-menu-item index="3-2">老人年龄段统计</el-menu-item>
+          <el-menu-item index="3-1" @click="oldStatistics">义工年龄段统计</el-menu-item>
+          <el-menu-item index="3-2" @click="statistics">老人年龄段统计</el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="4">
           <template #title>
@@ -42,6 +42,12 @@
           </template>
           <el-menu-item index="4-1" @click="event">事件监测</el-menu-item>
           <el-menu-item index="4-2" @click="video">交互检测</el-menu-item>
+        </el-sub-menu>
+        <el-sub-menu index="5">
+            <template #title>
+                <el-icon><location/></el-icon>
+                <span style="font-size:16px" @click="voice">语音助手</span>
+            </template>
         </el-sub-menu>
 <!--        <el-menu-item index="4">-->
 <!--          <el-icon><setting /></el-icon>-->
@@ -80,6 +86,15 @@ export default {
     },
     GetFace(){
       this.$router.push("/video/collect_face")
+    },
+    voice(){
+      this.$router.push("/voice")
+    },
+    statistics(){
+      this.$router.push("/statistics")
+    },
+    oldStatistics(){
+      this.$router.push("/oldStatistics")
     },
     event(){
       this.$router.push("/Event")

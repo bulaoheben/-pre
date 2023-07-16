@@ -104,6 +104,8 @@
 <script>
 
 import api from "@/api";
+import Vue from 'vue';
+import axios from 'axios';
 
 export default {
   data() {
@@ -114,23 +116,59 @@ export default {
       currentPage:1,
       total:0,
       pageSize:10,
-      tableData: []
+      tableData: [],
+      ws:null,
     }
   },
-  // data(){
-  // return{
-  //     userName: 'syd',
-  //     Password:"123321",
-  //     REAL_NAME:'王一丁',
-  //     SEX:"female",
-  //     EMAIL: '20301065@bjtu.edu.cn',
-  //     PHONE:"13671029613"
-  //   }
-  // },
-  created(){
-    this.load()
-  },
-  methods:{
+    created(){
+      this.load(),
+      // 每半分钟发送请求
+      setInterval(this.sendRequest, 30000);
+    },
+    // mounted() {
+    //     if ("WebSocket" in window)
+    //     {
+    //         // 打开一个 web socket
+    //         this.ws = new WebSocket("ws://127.0.0.1:5000");
+    //
+    //         // 连接建立后的回调函数
+    //         this.ws.onopen = function()
+    //         {
+    //             // Web Socket 已连接上，使用 send() 方法发送数据
+    //             this.ws.send("admin:123456");
+    //             alert("正在发送：admin:123456");
+    //             console.log("正在发送：admin:123456")
+    //         };
+    //
+    //         // 接收到服务器消息后的回调函数
+    //         this.ws.onmessage = function (evt)
+    //         {
+    //             var received_msg = evt.data;
+    //             if (received_msg.indexOf("sorry") == -1) {
+    //                 alert("收到消息："+received_msg);
+    //             }
+    //             console.log("收到消息："+received_msg)
+    //         };
+    //
+    //         if (this.ws.readyState===1)
+    //         {
+    //             this.ws.send("正在发送：admin:123456");
+    //         }
+    //
+    //         // 连接关闭后的回调函数
+    //         this.ws.onclose = function()
+    //         {
+    //             // 关闭 websocket
+    //             alert("连接已关闭...");
+    //         };
+    //
+    //     }
+    //     else
+    //     {// 浏览器不支持 WebSocket
+    //         alert("您的浏览器不支持 WebSocket!");
+    //     }
+    // },
+    methods:{
     load(){
       api.get("http://localhost:8080/api/userList",{
         // headers: {
@@ -155,10 +193,6 @@ export default {
       this.currentPage=page
       this.load()
     },
-    // add(){
-    //   this.dialogVisible=true
-    //   this.form={}
-    // },
     save(){
       if(this.form.ID){
         api.put(`http://localhost:8080/api/editUser?id=${this.form.ID}`,this.form,{
@@ -232,7 +266,22 @@ export default {
       }).catch(()=>{
         console.log('取消')
       })
+    },
+
+    async sendRequest() {
+        try {
+            // 发送GET请求
+            const response = await axios.get('/api/endpoint');
+
+            // 处理响应数据
+            const data = response.data;
+            // TODO: 对响应数据进行处理，例如更新页面内容
+        } catch (error) {
+            // 处理请求错误
+            console.error('请求错误:', error);
+        }
     }
+
   }
 }
 </script>

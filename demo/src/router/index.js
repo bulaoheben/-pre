@@ -48,6 +48,21 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '@/views/Video')
       },
       {
+        path: '/voice',
+        name: 'Voice',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/Voice')
+      },
+      {
+        path: '/statistics',
+        name: 'statistics',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/Statistics.vue')
+      },
+      {
+        path: '/oldStatistics',
+        name: 'oldStatistics',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/oldStatistics.vue')
+      },
+      {
         path: '/event',
         name: 'Event',
         component: () => import(/* webpackChunkName: "about" */ '@/views/Event')
@@ -68,7 +83,7 @@ const routes = [
     path: '/register',
     name: 'register',
     component: () => import(/* webpackChunkName: "about" */ '@/views/Register')
-  }
+  },
   // {
   //   path: '/userlist',
   //   name: 'userlist',
